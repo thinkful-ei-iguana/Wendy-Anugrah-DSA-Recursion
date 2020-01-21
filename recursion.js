@@ -69,35 +69,47 @@ function fibonacci(num) {
 }
 
 let maze = [
-  [" ", " ", " ", "*", " ", " ", " "], // index 0 // maze[0].length-1
-  ["*", "*", " ", "*", " ", "*", " "], // index 1
-  [" ", " ", " ", " ", " ", " ", " "], // index 2
-  [" ", "*", "*", "*", "*", "*", " "], // index 3
-  [" ", " ", " ", " ", " ", " ", "e"] // index 4
+  [" ", " ", " "],
+  [" ", "*", " "],
+  [" ", " ", "e"]
 ];
 
-function mazeTester(across, down, direction) {
-  let level = maze[down];
-  if (level[across] === "*") {
-    return "game over";
+function mazeTester(maze, column, row, direction) {
+  //base case
+  if (maze[column][row] === "e") {
+    return direction;
   }
-  if (level[across] === "e") {
-    return "You Win!";
-  }
-  if (direction.length === 0) {
-    return "";
+  //failing paths
+  if (
+    maze[column][row] === "*" ||
+    column > maze.length ||
+    row > maze[row].length ||
+    column < 0 ||
+    row < 0
+  ) {
+    return false;
   }
 
-  if (direction[0] === "R") {
-    return mazeTester(across++, down, direction.slice(1));
+  if (maze[column][row] === "") {
+    if (maze[column][row + 1] === "*") {
+      return "D" + mazeTester(maze, column++, row);
+    }
+    return "R" + mazeTester(maze, column, row++);
   }
-  if (direction[0] === "L") {
-    return mazeTester(across--, down, direction.slice(1));
+}
+
+//DRILL 10
+
+function anagrams(str, num = 0) {
+  //base case
+
+  if (str.length === num) {
+    return [str];
   }
-  if (direction[0] === "D") {
-    return mazeTester(across, down++, direction.slice(1));
-  }
-  if (direction[0] === "U") {
-    return mazeTester(across, down--, direction.slice(1));
-  }
+  const firstLetter = str[0]; //e
+  const remLetters = str.slice(1); //ast
+
+  //recursive case
+  num++;
+  return firstLetter + anagrams(remLetters.concat(firstLetter), num);
 }
