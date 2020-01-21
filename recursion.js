@@ -53,3 +53,14 @@ const splitter = function(str) {
   const char = str.indexOf("/"); //2
   return [str.slice(char), ...splitter(str)];
 };
+
+
+//DRILL NUMBER 6
+
+function fibonacci(num) {
+    if (num < 2) {
+      return num
+  }
+  
+  return (fibonacci(num-1) + fibonacci(num-2));
+  }
